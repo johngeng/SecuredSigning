@@ -300,6 +300,7 @@
                 var errors = ko.validation.group(self);
                 if (errors().length > 0) {
                     errors.showAllMessages();
+                    
                     return;
                 }
 
@@ -307,13 +308,11 @@
 
                 //Form is valid!
                 console.log('submit the form!')
-                //Api call would go here...
-                //
-                //
-                console.log({
-                    firstName: self.firstName(),
-                    //emailAddress: self.emailAddress(),
-                    //subscriptionType: self.subscriptionType(),
+
+                var data = ko.toJSON(self);
+                
+                $.post("https://localhost:44332/api/form", data, function (result) {
+                    console.log(result);
                 })
             }
         };
