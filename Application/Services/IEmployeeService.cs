@@ -7,6 +7,6 @@ namespace Services
 {
     public interface IEmployeeService
     {
-        Task SaveEmployeeDetails(Models.EmployeeDetails employeeDetails);
+        Task<int> SaveEmployeeDetails(Models.EmployeeDetails employeeDetails);
     }
 }

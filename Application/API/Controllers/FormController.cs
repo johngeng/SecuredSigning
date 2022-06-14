@@ -6,47 +6,40 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Models;
+using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [Produces("application/json")]
     [ApiController]
     public class FormController : ControllerBase
-    {
+    {    
+        private readonly ILogger<FormController> _logger;
         private IEmployeeService _employeeService;
-        public FormController(IEmployeeService employeeService)
+        public FormController(IEmployeeService employeeService, ILogger<FormController> logger)
         {
             _employeeService = employeeService;
+            _logger = logger;
         }
-
+        
+        [HttpGet()]
+        public ActionResult Index()
+        {
+            return Ok("");
+        }
         [HttpPost()]
-        public async Task<ActionResult> SaveEmploymentDetails([FromBody] EmployeeDetails details)
+        public async Task<ActionResult> Save([FromBody] EmployeeDetails details)
         {
             try
             {
-                await _employeeService.SaveEmployeeDetails(details);
-                return Ok();
+                var formId = await _employeeService.SaveEmployeeDetails(details);
+                return Ok(formId);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError($"Error Stack: {ex.StackTrace}");
                 return StatusCode((int)System.Net.HttpStatusCode.InternalServerError);
             }
         }
-
-        //[HttpPost()]
-        //[Route("api/form/employmentdetail")]
-        //public async Task<ActionResult> SaveEmploymentDetails([FromBody] EmployeeDetails details)
-        //{
-        //    try
-        //    {
-        //        await _employeeService.SaveEmployeeDetails(details);
-        //        return Ok();
-        //    }
-        //    catch 
-        //    {
-        //        return StatusCode((int)System.Net.HttpStatusCode.InternalServerError);
-        //    }
-        //}
     }
 }

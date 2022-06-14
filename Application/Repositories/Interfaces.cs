@@ -8,6 +8,8 @@ namespace Repositories
 {
     public interface IFormRepository
     {
-        Task SaveFormDetails(Form form);
+        Task<int> SaveFormDetails(Form form);
+
+        Task<List<Field>> GetFields();
     }
 }

@@ -23,17 +23,24 @@ namespace Repositories
             cn.Open();
             return cn;
         }
-        public async Task SaveFormDetails(Form form)
-        {
-            using (var cn = GetConnection())
-            {
-                var formID = await CreateForm(cn, form);
 
-                foreach (var field in form?.Fields ?? Enumerable.Empty<Field>())
-                {
-                    await CreateFormField(cn, (int) formID, field);
-                }
+        public async Task<List<Field>> GetFields()
+        {
+            using var cn = GetConnection();
+            return (await cn.QueryAsync<Field>("select * from dbo.Field")).ToList();
+        }
+
+
+        public async Task<int> SaveFormDetails(Form form)
+        {
+            using var cn = GetConnection();
+            var formID = await CreateForm(cn, form);
+
+            foreach (var field in form?.Fields ?? Enumerable.Empty<Field>())
+            {
+                await CreateFormField(cn, (int)formID, field);
             }
+            return formID ?? 0;
         }
 
         private async Task<int?> CreateForm(IDbConnection cn, Form form)

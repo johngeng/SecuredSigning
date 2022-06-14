@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Models
 {
     public class Form
     {
         public int FormID { get; set; }
-        public string FormType { get; set; }
+        public FormType FormType { get; set; }
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
 
@@ -17,12 +18,25 @@ namespace Models
             Fields = new List<Field>();
         }
 
-        public Form (EmployeeDetails employeeDetails)
+        public Form (FormType formType, List<Field> templateFields, string description, EmployeeDetails employeeDetails)
         {
+            FormType = formType;
+            Description = string.IsNullOrEmpty(description) ? typeof(EmployeeDetails).Name : description;
+            Fields = new List<Field>();
+
             foreach (var prop in employeeDetails.GetType().GetProperties())
             {
-                Fields.Add(new Field(prop.Name, prop.GetValue(employeeDetails, null).ToString()));
+                var field = templateFields.FirstOrDefault(t => t.FieldName.Equals(prop.Name));
+                if (field!=null)
+                {
+                    Fields.Add(new Field(field.FieldID, field.FieldType, prop.Name, prop.GetValue(employeeDetails, null)?.ToString()));
+                }
             }
         }
+    }
+
+    public enum FormType
+    {
+        PDF
     }
 }

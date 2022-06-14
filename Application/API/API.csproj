@@ -1,16 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>7ae7f4aa-9674-4a40-98a5-63d2e23372cc</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/cd831211-2ce1-4e20-8a41-313ed5fc703c/resourceGroups/securedsigning-api_group/providers/microsoft.insights/components/securedsigning-api</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModel\" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.13.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
-    <ProjectReference Include="..\Repositories\Repositories.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 

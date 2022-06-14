@@ -7,16 +7,17 @@ namespace Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private IFormRepository _employeeRepo;
+        private IFormRepository _formRepo;
 
-        public EmployeeService(IFormRepository employeeRepo)
+        public EmployeeService(IFormRepository formRepo)
         {
-            _employeeRepo = employeeRepo;
+            _formRepo = formRepo;
         }
-        public async Task SaveEmployeeDetails(EmployeeDetails employeeDetails)
+        public async Task<int> SaveEmployeeDetails(EmployeeDetails employeeDetails)
         {
-            var form = new Form(employeeDetails);
-           await _employeeRepo.SaveFormDetails(form);
+            var fields = await _formRepo.GetFields();
+            var form = new Form(FormType.PDF, fields, null, employeeDetails);
+            return await _formRepo.SaveFormDetails(form);
         }
     }
 }

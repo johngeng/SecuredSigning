@@ -27,10 +27,12 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddCors();
+            services.AddControllers();
+
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IFormRepository>(s => new FormRepository(Configuration.GetConnectionString("AZURE")));
+            services.AddApplicationInsightsTelemetry(Configuration.GetSection("ApplicationInsights").GetSection("InstrumentationKey").Value);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,13 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
             app.UseAuthorization();
 

@@ -11,8 +11,13 @@ namespace Models
         public string FieldName { get; set; }
         public string FieldValue { get; set; }
 
-        public Field(string fieldName, string fieldValue)
+        public Field() { 
+        }
+
+        public Field(int fieldID, string fieldType, string fieldName, string fieldValue)
         {
+            FieldID = fieldID;
+            FieldType = fieldType;
             FieldName = fieldName;
             FieldValue = fieldValue;
         }
