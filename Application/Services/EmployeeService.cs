@@ -15,6 +15,11 @@ namespace Services
         }
         public async Task<int> SaveEmployeeDetails(EmployeeDetails employeeDetails)
         {
+            if (!employeeDetails.IsValid())
+            {
+                throw new Exception("There are some errors in employee details validation.");
+            }
+
             var fields = await _formRepo.GetFields();
             var form = new Form(FormType.PDF, fields, null, employeeDetails);
             return await _formRepo.SaveFormDetails(form);
