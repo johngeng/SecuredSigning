@@ -17,5 +17,24 @@ namespace Models
         public string EmergencyContactName { get; set; }
         public string EmergencyContactRelationship { get; set; }
         public string EmergencyContactPhoneNumber { get; set; }
+
+        public bool IsValid()
+        {
+            var result = true;
+            result = result && !string.IsNullOrEmpty(FirstName);
+            result = result && !string.IsNullOrEmpty(LastName);
+            result = result && !string.IsNullOrEmpty(FullAddress);
+            result = result && !string.IsNullOrEmpty(EmailAddress);
+            result = result && !string.IsNullOrEmpty(PhoneNumber);
+            result = result && !string.IsNullOrEmpty(CitizenshipStatus);
+            result = result && !string.IsNullOrEmpty(EmploymentStartDate) && DateTime.TryParse(EmploymentStartDate, out var startDate);
+            result = result && !string.IsNullOrEmpty(EmploymentType);
+            result = result && !string.IsNullOrEmpty(PositionTitle);
+            result = result && !string.IsNullOrEmpty(EmergencyContactName);
+            result = result && !string.IsNullOrEmpty(EmergencyContactRelationship);
+            result = result && !string.IsNullOrEmpty(EmergencyContactPhoneNumber);
+
+            return result;
+        }
     }
 }
