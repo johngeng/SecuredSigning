@@ -109,6 +109,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Static\bootstrap\css\bootstrap-datepicker.min.css" />
+    <Content Include="Static\bootstrap\css\bootstrap-print.min.css" />
     <Content Include="Static\bootstrap\css\bootstrap-theme.css" />
     <Content Include="Static\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Static\bootstrap\css\bootstrap.css" />
